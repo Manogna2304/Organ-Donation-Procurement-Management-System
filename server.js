@@ -96,4 +96,18 @@ app.post('/api/run-match', authenticate, async (req, res) => {
     res.json(result[0][0]);
 });
 
-app.listen(3000, () => console.log("Server running on http://localhost:3000"));
+// Initialize database and start server
+async function startServer() {
+    try {
+        console.log('Initializing database...');
+        await db.initializeSampleData();
+        console.log('Database initialized successfully');
+        
+        app.listen(3000, () => console.log("Server running on http://localhost:3000"));
+    } catch (error) {
+        console.error('Failed to initialize database:', error);
+        process.exit(1);
+    }
+}
+
+startServer();
